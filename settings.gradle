@@ -1,2 +1,3 @@
 rootProject.name = 'micro-weather-springcloud'
 include 'micro-weather-basic'
+include 'weather-collection-service'
