@@ -1,3 +1,10 @@
 spring:
+  application:
+    name: weather-report-service
   thymeleaf:
     cache: false # 热部署静态文件
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
