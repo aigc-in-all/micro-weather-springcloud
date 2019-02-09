@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class WeatherDataServiceImpl implements WeatherDataService {
 
@@ -31,23 +33,44 @@ public class WeatherDataServiceImpl implements WeatherDataService {
         return doGetWeather(uri);
     }
 
+    @Override
+    public void syncDataByCityId(String cityId) {
+        String uri = WEATHER_URI + "citykey=" + cityId;
+        saveWeatherData(uri);
+    }
+
+    private void saveWeatherData(String uri) {
+        ResponseEntity<String> respString = restTemplate.getForEntity(uri, String.class);
+        if (respString.getStatusCode().value() != 200) {
+            return;
+        }
+
+        String strBody = respString.getBody();
+
+        // 数据写入缓存
+        stringRedisTemplate.opsForValue().set(uri, strBody, 3, TimeUnit.HOURS);
+    }
+
     private WeatherResponse doGetWeather(String uri) {
         WeatherResponse response = null;
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            // 先检查缓存
-            if (stringRedisTemplate.hasKey(uri)) {
-                String strBody = stringRedisTemplate.opsForValue().get(uri);
-                response = mapper.readValue(strBody, WeatherResponse.class);
-            } else {
-                ResponseEntity<String> respString = restTemplate.getForEntity(uri, String.class);
-                if (respString.getStatusCode().value() != 200) {
-                    return null;
-                }
-                String strBody = respString.getBody();
-                response = mapper.readValue(strBody, WeatherResponse.class);
-                stringRedisTemplate.opsForValue().set(uri, strBody);
+        String strBody = null;
+
+        // 先检查缓存
+        if (stringRedisTemplate.hasKey(uri)) {
+            strBody = stringRedisTemplate.opsForValue().get(uri);
+        } else {
+            ResponseEntity<String> respString = restTemplate.getForEntity(uri, String.class);
+            if (respString.getStatusCode().value() != 200) {
+                return null;
             }
+            strBody = respString.getBody();
+
+            // 数据写入缓存
+            stringRedisTemplate.opsForValue().set(uri, strBody, 3, TimeUnit.HOURS);
+        }
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            response = mapper.readValue(strBody, WeatherResponse.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
