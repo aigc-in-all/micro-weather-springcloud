@@ -15,3 +15,5 @@ feign:
       feignName:
         connectTimeout: 5000
         readTimeout: 5000
+  hystrix:
+    enabled: true # 在Feign里面使用断路器

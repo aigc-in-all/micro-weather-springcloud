@@ -14,6 +14,10 @@ public class WeatherReportServiceImpl implements WeatherReportService {
     @Override
     public Weather getDataByCityId(String cityId) {
         WeatherResponse resp = dataClient.getDataByCityId(cityId);
-        return resp.getData();
+        Weather data = null;
+        if (resp != null) {
+            data = resp.getData();
+        }
+        return data;
     }
 }

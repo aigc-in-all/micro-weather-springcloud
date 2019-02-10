@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient("weather-gateway-zuul")
+@FeignClient(name = "weather-gateway-zuul", fallback = DataClientFallback.class)
 public interface DataClient {
 
     /**
