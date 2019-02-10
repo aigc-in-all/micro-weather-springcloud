@@ -1,6 +1,6 @@
 package com.heqingbao.microweather.controller;
 
-import com.heqingbao.microweather.service.CityClient;
+import com.heqingbao.microweather.service.DataClient;
 import com.heqingbao.microweather.service.WeatherReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +17,13 @@ public class WeatherReportController {
     private WeatherReportService weatherReportService;
 
     @Autowired
-    private CityClient cityClient;
+    private DataClient dataClient;
 
     @RequestMapping("/cityId/{cityId}")
     public ModelAndView getWeatherByCityId(@PathVariable("cityId") String cityId, Model model) {
         model.addAttribute("title", "天气预报");
         model.addAttribute("cityId", cityId);
-        model.addAttribute("cityList", cityClient.listCity());
+        model.addAttribute("cityList", dataClient.listCity());
         model.addAttribute("report", weatherReportService.getDataByCityId(cityId));
         return new ModelAndView("weather/report", "reportModel", model);
     }

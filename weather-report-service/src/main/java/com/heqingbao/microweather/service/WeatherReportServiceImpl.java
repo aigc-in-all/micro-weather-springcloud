@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 public class WeatherReportServiceImpl implements WeatherReportService {
 
     @Autowired
-    private WeatherDataClient weatherDataClient;
+    private DataClient dataClient;
 
     @Override
     public Weather getDataByCityId(String cityId) {
-        WeatherResponse resp = weatherDataClient.getDataByCityId(cityId);
+        WeatherResponse resp = dataClient.getDataByCityId(cityId);
         return resp.getData();
     }
 }
