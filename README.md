@@ -40,4 +40,4 @@ weather-gateway-zuul | Zuul网关
 
 ### Todo
 
-结合Docker+k8s容器编技术做自动扩展
+结合Docker+k8s容器编排技术做自动扩展
