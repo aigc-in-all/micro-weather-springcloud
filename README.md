@@ -28,9 +28,9 @@ weather-gateway-zuul | Zuul网关
 * Hystrix ->Greenwich.RELEASE
 * Feign ->Greenwich.RELEASE
 * Config ->Greenwich.RELEASE
-* Redis -> 3.2
+* Redis -> 5.0.3
 * Quartz Scheduler -> 2.3.0
-
+* Docker -> 18.09.0
 
 ### 截图
 
@@ -38,6 +38,29 @@ weather-gateway-zuul | Zuul网关
 
 ![](/screenshot/eureka.png)
 
-### Todo
+### 启动方式(Docker)
 
-结合Docker+k8s容器编排技术做自动扩展
+#### 1.编译
+
+在项目根目录下执行：
+```bash
+sh ./buils.sh
+```
+> 以上命令将分别编译各微服务项目并且构建docker镜像。
+
+#### 2.启动
+
+在项目根目录下执行：
+```bash
+docker-compose up
+```
+
+然后在本机访问[http://localhost:8083/report/cityId/101280601](http://localhost:8083/report/cityId/101280601)，如果已部署在服务器上，更改localhost为对应IP或域名即可。
+
+Eureka注册中心地址：[http://localhost:8761/](http://localhost:8761/)，可以查看各服务的实例情况。
+
+> 具体的服务和端口配置可查看根目录下的**docker-compose.yml**文件
+
+### TODO
+
+使用k8s进行容器编译
