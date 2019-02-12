@@ -1,6 +1,9 @@
 spring:
   application:
     name: weather-data-service
+  redis:
+    host: localhost
+    port: 6379
 
 eureka:
   client:
