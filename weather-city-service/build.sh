@@ -4,6 +4,9 @@
 ./gradlew clean
 ./gradlew build -x test # build without test
 
+# remove image
+docker rmi weather-city-service:latest
+
 # build image
 docker build -t weather-city-service:latest .
 
