@@ -1,0 +1,54 @@
+version: '3'
+services:
+  redis:
+    image: redis:5.0.3-alpine
+    ports:
+      - 6379:6379
+
+  eureka-server:
+    image: weather-eureka-server:latest
+    ports:
+      - 8761:8761
+
+  city-service:
+    image: weather-city-service:latest
+    links:
+      - eureka-server
+    environment:
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+    ports:
+      - 8080:8080
+
+  collection-service:
+    image: weather-collection-service:latest
+    links:
+      - eureka-server
+      - redis
+    environment:
+      - spring.redis.host=redis
+      - spring.redis.port=6379
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+
+  data-service:
+    image: weather-data-service:latest
+    environment:
+      - spring.redis.host=redis
+      - spring.redis.port=6379
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+    ports:
+      - 8081:8080
+
+  report-service:
+    image: weather-report-service:latest
+    environment:
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+    ports:
+      - 8082:8080
+
+  gateway-zuul:
+    image: weather-gateway-zuul:latest
+    environment:
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+    links:
+      - city-service
+      - data-service
