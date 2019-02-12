@@ -1,7 +1,7 @@
 
 ## 基于Spring Cloud技术栈构建的微服务架构
 
-### 目录结构介绍
+### 一、目录结构介绍
 
 Module | 介绍
 ---|---
@@ -15,10 +15,10 @@ weather-config-client | Spring Cloud Config Client端
 weather-eureka-server | Eureka注册中心
 weather-gateway-zuul | Zuul网关
 
-### 架构图
+### 二、架构图
 ![](/screenshot/architecture.png)
 
-### 环境参数
+### 三、环境参数
 * JDK -> 1.8
 * IDE -> Intellij IDEA
 * Gradle -> 4.10
@@ -33,13 +33,13 @@ weather-gateway-zuul | Zuul网关
 * Docker -> 18.09.0
 * Docker Compose -> 1.23.2
 
-### 截图
+### 四、截图
 
 ![](/screenshot/report.png)
 
 ![](/screenshot/eureka.png)
 
-### 启动方式(Docker)
+### 五、启动方式(Docker)
 
 #### 1.编译
 
@@ -77,6 +77,6 @@ $ docker run -d -p 9000:9000 --name portainer --restart always \
 
 具体文档可以参考：[https://portainer.readthedocs.io/en/latest/deployment.html](https://portainer.readthedocs.io/en/latest/deployment.html)
 
-### TODO
+### 六、TODO
 
 使用k8s进行容器编译
