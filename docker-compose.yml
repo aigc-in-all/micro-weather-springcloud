@@ -28,6 +28,8 @@ services:
       - spring.redis.host=redis
       - spring.redis.port=6379
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+    ports:
+      - 8081:8080
 
   data-service:
     image: weather-data-service:latest
@@ -36,14 +38,14 @@ services:
       - spring.redis.port=6379
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
     ports:
-      - 8081:8080
+      - 8082:8080
 
   report-service:
     image: weather-report-service:latest
     environment:
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
     ports:
-      - 8082:8080
+      - 8083:8080
 
   gateway-zuul:
     image: weather-gateway-zuul:latest
