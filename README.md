@@ -79,4 +79,4 @@ $ docker run -d -p 9000:9000 --name portainer --restart always \
 
 ### 六、TODO
 
-使用k8s进行容器编译
+使用k8s进行容器编排
